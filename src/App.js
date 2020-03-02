@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import Book from './book';
-import "./App.css";
+import "./book.css";
+import logo from "./logo.png";
+import { render } from 'react-dom';
 
 const App = () => {
+
+  render() {
   //Con esta función de estado maneja la información devuelta.
   //En vez de console.log la manda a setBooks para poder visualizarla.
   //Conviene hacer un componente Book aparte!
@@ -20,7 +24,7 @@ const App = () => {
   //Creo un estado que me genere un fetch SOLAMENTE cuando hago click en enter.
   //Si no hago esto, lo que pasa es que cada vez que tipeo una letra en el campo
   //de búsqueda hace fetching! No tiene sentido.
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState([]);
 
 //After every single time something changes, this is triggered via useEffect
 //El array vacío [] indica a la función que se aplique el useEffect cuando
@@ -40,12 +44,6 @@ const App = () => {
     setBooks(data.books);
   }
 
-  //Defino la función que me dice que el valor que va a tomar la búsqueda al hacer click
-  //va a ser el valor ingresado en el target
-  const updateSearch = e => { 
-    setSearch(e.target.value);
-  }
-
   //Ahora ejecuto la acción: cada vez que doy click me envíe el formulario.
   //Al mismo tiempo seteamos el setQuery al valor que sea que tengamos en el campo search.
   //Una vez que me tomó el valor ingresado y que le di click entonces le dijo que me
@@ -55,35 +53,59 @@ const App = () => {
     setQuery(search);
     setSearch('');
   }
+  //Defino la función que me dice que el valor que va a tomar la búsqueda al hacer click
+  //va a ser el valor ingresado en el target
+  //Debería conectar con el filter!!!
+  const updateSearch = e => {
+    console.log(e.target.value)
+    setSearch(e.target.value); 
+    //es equivalente a searchHandler(event){this.setState({event.target.value})}???
+    filter(books);
+  }
 
+  //Debe conectar con updateSearch!!!
+  const filter = (() => {
+    const results = books.filter(book => book.toLowerCase().includes(search));
+    setSearch(results);
+  }, [search]);
+  //return finalArray
+
+  /*
+  //FUNCTION DISPLAY - CLOSE MODAL
+  buttonMoreInfo.onclick = function () {
+    theModal.style.display = "flex";
+  }
+
+  closeModal.onclick = function () {
+    theModal.style.display = "none";
+  }
+*/
   return (
+    <>
     <div className="App">
+      <div className="row" id="banner">
+        <img className="img-responsive" id="logo" img src={logo} alt=""/>
+          <h1 className="titles">UBIQUM's Bookstore</h1>
       <form onSubmit={getSearch} className="search-form">
         <input className="search-bar" type="text" placeholder={`Type here`} value={search} onChange={updateSearch} />
         <button className="search-button" type="submit">Search 
         </button>
       </form>
-      <div className="Books">
-      {/*En el cuerpo le voy a pedir que me despliegue el array de recetas obtenidas, mediante un mapeo. Mediante propiedades y la ruta dentro del objeto despliego la info elegida*/}
-      {books.map(books => (
-      < Book 
-      title = {
-        books.title
-      }
-      description = {
-        books.description
-      }
-      cover = {
-        books.cover
-      }
-      language = {
-        books.language
-      }
-      />
-      ))}
       </div>
-    </div>
+      {/*En el cuerpo le voy a pedir que me despliegue el array de recetas obtenidas, mediante un mapeo. Mediante propiedades y la ruta dentro del objeto despliego la info elegida*/}
+        {books.filter(updateSearch(search)).map(book => (
+          < Book
+            //key={books.book}         //should call the filtered books here    
+            title={book.title} 
+            description = {book.description}
+            cover = {book.cover}
+            detail = {book.detail}
+          />
+      ))}
+        </div>
+        </>
   );
+};
 };
 
 export default App;

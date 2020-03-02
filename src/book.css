@@ -46,6 +46,7 @@ html {
   box-shadow     : 0 15px 15px rgba(0, 0, 0, 0.9);
 }
 
+/*
 .searchInputDiv:before {
   content      : "";
   border-radius: 60px;
@@ -100,6 +101,7 @@ html {
   transition : opacity 2s;
   text-align : left;
 }
+*/
 
 .row {
   background-color: rgb(110, 199, 144);
@@ -200,6 +202,7 @@ html {
   padding   : 15px;
 }
 
+
 .buttonMoreInfo,
 .closeModal {
   background-color: rgb(110, 199, 144);
@@ -211,8 +214,10 @@ html {
   border-radius   : 8px;
 }
 
+/*
 .theModal {
-  /* Hidden by default */
+  */
+  /* Hidden by default
   display         : none;
   flex-direction  : column;
   justify-content : space-evenly;
@@ -249,7 +254,7 @@ html {
   cursor         : pointer;
 }
 
-/* Add Animation */
+/* Add Animation
 .imgModal,
 .closeModal {
   -webkit-animation-name    : zoom;
@@ -283,6 +288,7 @@ html {
     animation: App-logo-spin infinite 20s linear;
   }
 }
+*/
 
 .App-header {
   background-color: #282c34;
