@@ -1,6 +1,6 @@
 .theModal {
     /* Hidden by default */
-    display         : none;
+    
     flex-direction  : column;
     justify-content : space-evenly;
     align-content   : space-evenly;

@@ -1,12 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import Book from './book';
+import React, { useEffect, useState } from "react";
+import Book from "./book";
 import "./book.css";
 import logo from "./logo.png";
-import { render } from 'react-dom';
 
 const App = () => {
-
-  render() {
   //Con esta función de estado maneja la información devuelta.
   //En vez de console.log la manda a setBooks para poder visualizarla.
   //Conviene hacer un componente Book aparte!
@@ -19,97 +16,102 @@ const App = () => {
   //En el return final, debajo del formulario, el valor del campo de búsqueda
   //que corresponde al campo en blanco es el que yo acá definí como search y le
   //dije usa el estado '', o sea, campo en blanco.
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   //Creo un estado que me genere un fetch SOLAMENTE cuando hago click en enter.
   //Si no hago esto, lo que pasa es que cada vez que tipeo una letra en el campo
   //de búsqueda hace fetching! No tiene sentido.
   const [query, setQuery] = useState([]);
 
-//After every single time something changes, this is triggered via useEffect
-//El array vacío [] indica a la función que se aplique el useEffect cuando
-//la página es cargada al cliquear el botón submit. Llama a la función getBooks.
+  //After every single time something changes, this is triggered via useEffect
+  //El array vacío [] indica a la función que se aplique el useEffect cuando
+  //la página es cargada al cliquear el botón submit. Llama a la función getBooks.
   useEffect(() => {
-    getBooks(); 
+    getBooks();
+    //console.log("hello!") se dispara al dar click a Search
   }, [query]);
 
-//Obtener la receta: de manera asíncrona. Le digo que la respuesta sea esperada y después fetch,
-// y que con la data que recibe (bajo la forma de response) espere y la transforme en un json 
-// vía json method y me imprima la información. En este caso le pido sólo hits que son las recetas.
-//El objeto está compuesto por muchos otros datos, pero las recetas están contenidas en hits. 
+  //Obtener la receta: de manera asíncrona. Le digo que la respuesta sea esperada y después fetch,
+  // y que con la data que recibe (bajo la forma de response) espere y la transforme en un json
+  // vía json method y me imprima la información. En este caso le pido sólo hits que son las recetas.
+  //El objeto está compuesto por muchos otros datos, pero las recetas están contenidas en hits.
   const getBooks = async () => {
     const response = await fetch(`https://api.myjson.com/bins/zyv02`);
     const data = await response.json();
     console.log(data.books);
     setBooks(data.books);
-  }
+  };
 
   //Ahora ejecuto la acción: cada vez que doy click me envíe el formulario.
   //Al mismo tiempo seteamos el setQuery al valor que sea que tengamos en el campo search.
   //Una vez que me tomó el valor ingresado y que le di click entonces le dijo que me
   //vuelva a dejar el campo en blanco.
   const getSearch = e => {
+    //console.log('e', e.target)
     e.preventDefault();
     setQuery(search);
-    setSearch('');
-  }
+    //console.log("hola!") Se dispara cuando doy enter a la búsqueda
+    setSearch("");
+  };
+
   //Defino la función que me dice que el valor que va a tomar la búsqueda al hacer click
-  //va a ser el valor ingresado en el target
+  //Va a ser el valor ingresado en el target
   //Debería conectar con el filter!!!
   const updateSearch = e => {
-    console.log(e.target.value)
-    setSearch(e.target.value); 
+    console.log(e.target.value);
+    //console.log("Hola!") Cada vez que tipeo una letra se dispara esta función
+    setSearch(e.target.value);
     //es equivalente a searchHandler(event){this.setState({event.target.value})}???
-    filter(books);
-  }
+  };
 
-  //Debe conectar con updateSearch!!!
-  const filter = (() => {
-    const results = books.filter(book => book.toLowerCase().includes(search));
-    setSearch(results);
-  }, [search]);
-  //return finalArray
+  const filteredBooks = books.filter(book => {
+    return Object.keys(book).some(key =>
+      book[key].toLowerCase().includes(search)
+    );
+  });
 
-  /*
-  //FUNCTION DISPLAY - CLOSE MODAL
-  buttonMoreInfo.onclick = function () {
-    theModal.style.display = "flex";
-  }
-
-  closeModal.onclick = function () {
-    theModal.style.display = "none";
-  }
-*/
   return (
     <>
-    <div className="App">
-      <div className="row" id="banner">
-        <img className="img-responsive" id="logo" img src={logo} alt=""/>
-          <h1 className="titles">UBIQUM's Bookstore</h1>
-      <form onSubmit={getSearch} className="search-form">
-        <input className="search-bar" type="text" placeholder={`Type here`} value={search} onChange={updateSearch} />
-        <button className="search-button" type="submit">Search 
-        </button>
-      </form>
-      </div>
-      {/*En el cuerpo le voy a pedir que me despliegue el array de recetas obtenidas, mediante un mapeo. Mediante propiedades y la ruta dentro del objeto despliego la info elegida*/}
-        {books.filter(updateSearch(search)).map(book => (
-          < Book
-            //key={books.book}         //should call the filtered books here    
-            title={book.title} 
-            description = {book.description}
-            cover = {book.cover}
-            detail = {book.detail}
-          />
-      ))}
+      <div className="App">
+        <div className="container">
+          <div className="row" id="banner">
+            <img
+              className="img-responsive"
+              id="logo"
+              src={logo}
+              alt="logo"
+            />
+            <h1 className="titles">UBIQUM's Bookstore</h1>
+            <form onSubmit={getSearch} className="search-form">
+              <input
+                className="search-bar"
+                type="text"
+                placeholder={`Type here`}
+                value={search}
+                onChange={updateSearch}
+              />
+              {/*<button className="search-button" type="submit">Search</button>*/}
+            </form>
+          </div>
+          <div className="row" id="theBookshelf">
+            {/*En el cuerpo le voy a pedir que me despliegue el array de recetas obtenidas, mediante un mapeo. Mediante propiedades y la ruta dentro del objeto despliego la info elegida*/}
+            {filteredBooks.map((book, index) => (
+              <Book
+                key={index}
+                title={book.title}
+                description={book.description}
+                cover={book.cover}
+                detail={book.detail}
+              />
+            ))}
+          </div>
         </div>
-        </>
+      </div>
+    </>
   );
-};
 };
 
 export default App;
-
 
 /*
 import React from 'react';
