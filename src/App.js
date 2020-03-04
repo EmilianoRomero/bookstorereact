@@ -49,7 +49,7 @@ const App = () => {
   const getSearch = e => {
     //console.log('e', e.target)
     e.preventDefault();
-    setQuery(search);
+    setQuery([search]);
     //console.log("hola!") Se dispara cuando doy enter a la búsqueda
     setSearch("");
   };
@@ -75,12 +75,7 @@ const App = () => {
       <div className="App">
         <div className="container">
           <div className="row" id="banner">
-            <img
-              className="img-responsive"
-              id="logo"
-              src={logo}
-              alt="logo"
-            />
+            <img className="img-responsive" id="logo" src={logo} alt="logo" />
             <h1 className="titles">UBIQUM's Bookstore</h1>
             <form onSubmit={getSearch} className="search-form">
               <input
@@ -88,13 +83,16 @@ const App = () => {
                 type="text"
                 placeholder={`Type here`}
                 value={search}
+                required
                 onChange={updateSearch}
               />
-              {/*<button className="search-button" type="submit">Search</button>*/}
+              {/*<button className="search-button" type="submit">
+                Search Book
+              </button>*/}
             </form>
           </div>
           <div className="row" id="theBookshelf">
-            {/*En el cuerpo le voy a pedir que me despliegue el array de recetas obtenidas, mediante un mapeo. Mediante propiedades y la ruta dentro del objeto despliego la info elegida*/}
+            {/*En el cuerpo le voy a pedir que me despliegue el array de recetas obtenidas, mediante un mapeo. Mediante propiedades y la ruta dentro del objeto despliego la info elegida. Index lo pongo para que React no tire el error con las keys*/}
             {filteredBooks.map((book, index) => (
               <Book
                 key={index}

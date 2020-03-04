@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./book.css";
 import "./popup.css";
 
@@ -9,8 +9,19 @@ import "./popup.css";
 //y para hacerlo necesito mapear en el array en cuestión. Llamé al ingrediente
 
 const Book = ({ title, description, cover, detail }) => {
+  const [displayModal, setDisplayModal] = useState(false);
 
- const [displayModal, setDisplayModal] = useState(false);
+  /*
+  const openModal = () => {
+  setDisplayModal(true);
+  console.log("modalOpen");
+  }
+
+  const closeModal = () => {
+  setDisplayModal(false);
+  console.log("modalClosed");
+  }
+  */
 
   return (
     <div className="theBookContainer">
@@ -24,7 +35,7 @@ const Book = ({ title, description, cover, detail }) => {
           <div id="moreInfo">
             <button
               className="buttonMoreInfo"
-              onClick={console.log("OpenModal")}
+              onClick={() => setDisplayModal(true)}
             >
               info
             </button>
@@ -36,7 +47,7 @@ const Book = ({ title, description, cover, detail }) => {
         <div className="theModal">
           {" "}
           <img src={detail} alt="" />
-          <button className="closeModal" onClick={console.log("CloseModal")}>
+          <button className="closeModal" onClick={() => setDisplayModal(false)}>
             close
           </button>
         </div>
