@@ -8,7 +8,8 @@ html {
   /*background-position: right; /* Center the image */
   /*background-repeat  : no-repeat; /* Do not repeat the image */
   /*background-size    : contain;*/
-  font-family          : 'Pacifico', cursive;
+  font-family: 'Spartan',
+sans-serif;
 }
 
 .container {

@@ -24,36 +24,34 @@ const Book = ({ title, description, cover, detail }) => {
   */
 
   return (
-    <div className="theBookContainer">
-      <div className="theBook">
-        <div className="theFront">
-          <img src={cover} alt="" />
+    <>
+    <div className="theBookContainer" id="the BookContainer">
+      <div className="theBook" id="theBook">
+        <div className="theFront" id="everySingleFront">
+          <img className="front" id="cover" src={cover} alt="" />
         </div>
-        <div className="theBack">
-          <h2 className="back">{title}</h2>
-          <p className="back">{description}</p>
+        <div className="theBack" id="everySingleBack">
+          <h2 className="back" id="title">{title}</h2>
+          <p className="back" id="description">{description}</p>
           <div id="moreInfo">
             <button
-              className="buttonMoreInfo"
-              onClick={() => setDisplayModal(true)}
-            >
-              info
+              className="buttonMoreInfo" id="buttonMoreInfo"
+              onClick={() => setDisplayModal(true)}>info
             </button>
           </div>
         </div>
       </div>
-
-      {displayModal && (
-        <div className="theModal">
-          {" "}
-          <img src={detail} alt="" />
-          <button className="closeModal" onClick={() => setDisplayModal(false)}>
-            close
-          </button>
-        </div>
-      )}
     </div>
+    {displayModal && (
+    <div className="theModal" id="theModal">
+      <img className="imgModal" src={detail} alt="" />
+      <button className="closeModal" onClick={() => setDisplayModal(false)}>
+        close
+      </button>
+    </div>
+      )}
+    </>
   );
-};
+}
 
 export default Book;

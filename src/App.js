@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Book from "./book";
 import "./book.css";
 import logo from "./logo.png";
+import "./popup.css";
 
 const App = () => {
   //Con esta función de estado maneja la información devuelta.
